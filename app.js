@@ -10,6 +10,7 @@ const Campground = require("./models/campground");
 const Review = require("./models/review");
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelpish", {
+  useFindAndModify: false,
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -128,6 +129,16 @@ app.post(
     await review.save();
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
+  })
+);
+
+app.delete(
+  "/campgrounds/:id/reviews/:reviewId",
+  catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
   })
 );
 
