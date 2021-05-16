@@ -25,25 +25,7 @@
       integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ"
       crossorigin="anonymous"
     ></script>
+
+    <script src="/javascripts/validateForms.js"></script>
   </body>
 </html>
-
-<script>
-  (function () {
-    "use strict";
-    const forms = document.querySelectorAll(".validated-form");
-    Array.from(forms).forEach(function (form) {
-      form.addEventListener(
-        "submit",
-        function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add("was-validated");
-        },
-        false
-      );
-    });
-  })();
-</script>
