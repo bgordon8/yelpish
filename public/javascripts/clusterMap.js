@@ -1,6 +1,6 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-  container: "map",
+  container: "cluster-map",
   style: "mapbox://styles/mapbox/light-v10",
   center: [-103.59179687498357, 40.66995747013945],
   zoom: 3,
@@ -21,11 +21,6 @@ map.on("load", function () {
     source: "campgrounds",
     filter: ["has", "point_count"],
     paint: {
-      // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-      // with three steps to implement three types of circles:
-      //   * Blue, 20px circles when point count is less than 100
-      //   * Yellow, 30px circles when point count is between 100 and 750
-      //   * Pink, 40px circles when point count is greater than or equal to 750
       "circle-color": [
         "step",
         ["get", "point_count"],
@@ -64,7 +59,6 @@ map.on("load", function () {
     },
   });
 
-  // inspect a cluster on click
   map.on("click", "clusters", function (e) {
     const features = map.queryRenderedFeatures(e.point, {
       layers: ["clusters"],
@@ -82,17 +76,10 @@ map.on("load", function () {
       });
   });
 
-  // When a click event occurs on a feature in
-  // the unclustered-point layer, open a popup at
-  // the location of the feature, with
-  // description HTML from its properties.
   map.on("click", "unclustered-point", function (e) {
     const text = e.features[0].properties.popUpMarkup;
     const coordinates = e.features[0].geometry.coordinates.slice();
 
-    // Ensure that if the map is zoomed out such that
-    // multiple copies of the feature are visible, the
-    // popup appears over the copy being pointed to.
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
