@@ -23,4 +23,12 @@ module.exports = [
     rank: "3",
     state: "Illinois",
   },
+  {
+    city: "Denver",
+    latitude: 39.7679081,
+    longitude: -104.9827017,
+    population: 2718782,
+    rank: "4",
+    state: "Colorado",
+  },
 ];
