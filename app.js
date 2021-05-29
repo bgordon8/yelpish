@@ -20,8 +20,9 @@ const mongoSanitize = require("express-mongo-sanitize");
 const userRoutes = require("./routes/users");
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/reviews");
+const dbUrl = process.env.DB_URL;
 
-mongoose.connect("mongodb://127.0.0.1:27017/yelpish", {
+mongoose.connect(dbUrl, {
   useFindAndModify: false,
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -98,7 +99,7 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/db7s3pmgy/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://res.cloudinary.com/db7s3pmgy/",
         "https://images.unsplash.com/",
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
